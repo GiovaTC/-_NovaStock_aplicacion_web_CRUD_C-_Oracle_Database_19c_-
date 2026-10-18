@@ -73,6 +73,29 @@ namespace CrudProductosOracle19c.Data
             await cmd.ExecuteNonQueryAsync();
         }
 
+        public async Task<bool> ActualizarAsync(Producto producto)
+        {
+            await using var cn = CrearConexion();
+            await cn.OpenAsync();
+
+            const string sql = """
+                UPDATE PRODUCTOS
+                SET NOMBRE = :p_nombre,
+                    DESCRIPCION = :p_descripcion,
+                    PRECIO = :p_precio,
+                    STOCK = :p_stock,
+                    CATEGORIA = :p_categoria
+                WHERE ID = :p_id
+                """;
+
+            await using var cmd = new OracleCommand(sql, cn);
+            cmd.BindByName = true;
+            AgregarParametrosProducto(cmd, producto);
+            cmd.Parameters.Add("p_id", OracleDbType.Int32).Value = producto.Id;
+
+            return await cmd.ExecuteNonQueryAsync() > 0;
+        }   
+
         private void AgregarParametrosProducto(OracleCommand cmd, Producto producto)
         {
             throw new NotImplementedException();
