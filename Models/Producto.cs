@@ -11,6 +11,11 @@ namespace CrudProductosOracle19c.Models
         [Display(Name = "nombre del Producto")]
         public string Nombre { get; set; } = string.Empty;
 
+        [Required(ErrorMessage = "La descripción es obligatoria.")]
+        [StringLength(500, ErrorMessage = "Máximo 500 caracteres.")]
+        [Display(Name = "descripcion")]
+        public string Descripcion { get; set; } = string.Empty;
+
         [Range(0.01 , 999999999, ErrorMessage = "el precio debe ser mayor que 0.")]
         [Display(Name = "precio (COP)")]
         public decimal Precio { get; set; }

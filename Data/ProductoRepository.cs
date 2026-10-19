@@ -96,15 +96,26 @@ namespace CrudProductosOracle19c.Data
             return await cmd.ExecuteNonQueryAsync() > 0;
         }   
 
-        private void AgregarParametrosProducto(OracleCommand cmd, Producto producto)
+        private static void AgregarParametrosProducto(OracleCommand cmd, Producto p)
         {
-            throw new NotImplementedException();
+            cmd.Parameters.Add("p_nombre", OracleDbType.Varchar2, 100).Value = p.Nombre.Trim();
+            cmd.Parameters.Add("p_descripcion", OracleDbType.Varchar2, 500).Value =
+                p.Descripcion.Trim();
+            cmd.Parameters.Add("p_precio", OracleDbType.Decimal).Value = p.Precio;
+            cmd.Parameters.Add("p_stock", OracleDbType.Int32).Value = p.Stock;
+            cmd.Parameters.Add("p_categoria", OracleDbType.Varchar2, 100).Value = p.Categoria.Trim();
         }
 
-        private Producto? LeerProducto(OracleDataReader reader)
+        private static Producto LeerProducto(OracleDataReader r) => new()
         {
-            throw new NotImplementedException();
-        }
-    }
+            Id = Convert.ToInt32(r["ID"]),
+            Nombre = r["NOMBRE"].ToString() ?? "",
+            Descripcion = r["DESCRIPCION"].ToString() ?? "",
+            Precio = Convert.ToDecimal(r["PRECIO"]),
+            Stock = Convert.ToInt32(r["STOCK"]),
+            Categoria = r["CATEGORIA"].ToString() ?? "",
+            FechaCreacion = Convert.ToDateTime(r["FECHA_CREACION"])
+        };
+    }   
 }
     
