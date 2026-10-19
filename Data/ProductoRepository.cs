@@ -23,7 +23,7 @@ namespace CrudProductosOracle19c.Data
 
             const string sql = """
                 SELECT ID, NOMBRE, DESCRIPCION, PRECIO, STOCK, CATEGORIA, FECHA_CREACION
-                FROM PRODUCTOS
+                FROM PRODUCTOS_L
                 WHERE (:p_buscar IS NULL 
                 OR UPPER(NOMBRE) LIKE '%' || UPPER(:p_buscar) || '%'
                 OR UPPER(CATEGORIA) LIKE '%' || UPPER(:p_buscar) || '%')
@@ -44,7 +44,7 @@ namespace CrudProductosOracle19c.Data
 
             const string sql = """
                 SELECT ID, NOMBRE, DESCRIPCION, PRECIO, STOCK, CATEGORIA, FECHA_CREACION
-                FROM PRODUCTOS
+                FROM PRODUCTOS_L
                 WHERE ID = :p_id
                 """;
 
@@ -63,7 +63,7 @@ namespace CrudProductosOracle19c.Data
 
             const string sql = """
                 
-                INSERT INTO PRODUCTOS (NOMBRE, DESCRIPCION, PRECIO, STOCK, CATEGORIA)
+                INSERT INTO PRODUCTOS_L (NOMBRE, DESCRIPCION, PRECIO, STOCK, CATEGORIA)
                 VALUES (:p_nombre, :p_descripcion, :p_precio, :p_stock, :p_categoria)
                 """;
 
@@ -79,7 +79,7 @@ namespace CrudProductosOracle19c.Data
             await cn.OpenAsync();
 
             const string sql = """
-                UPDATE PRODUCTOS
+                UPDATE PRODUCTOS_L
                 SET NOMBRE = :p_nombre,
                     DESCRIPCION = :p_descripcion,
                     PRECIO = :p_precio,
@@ -94,6 +94,30 @@ namespace CrudProductosOracle19c.Data
             cmd.Parameters.Add("p_id", OracleDbType.Int32).Value = producto.Id;
 
             return await cmd.ExecuteNonQueryAsync() > 0;
+        }
+        
+        public async Task<bool> EliminarAsync(int id)
+        {
+            await using var cn = CrearConexion();
+            await cn.OpenAsync();
+
+            await using var cmd = 
+                new OracleCommand("DELETE FROM PRODUCTOS_L WHERE ID = :p_id", cn);
+            cmd.BindByName = true;
+            cmd.Parameters.Add("p_id", OracleDbType.Int32).Value = id;
+            
+            return await cmd.ExecuteNonQueryAsync() > 0;    
+        }
+
+        public async Task<int> ContarAsync()
+        {
+            await using var cn = CrearConexion();
+            await cn.OpenAsync();
+
+            await using var cmd = new OracleCommand(
+                "SELECT COUNT(*) FROM PRODUCTOS_L", cn);
+
+            return Convert.ToInt32(await cmd.ExecuteScalarAsync());
         }   
 
         private static void AgregarParametrosProducto(OracleCommand cmd, Producto p)

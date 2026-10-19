@@ -1,6 +1,33 @@
-﻿namespace CrudProductosOracle19c.Controllers
+﻿using CrudProductosOracle19c.Data;
+using CrudProductosOracle19c.Models;
+using Microsoft.AspNetCore.Mvc;
+
+namespace CrudProductosOracle19c.Controllers
 {
-    public class ProductosController
+    public class ProductosController : Controller
     {
+        private readonly ProductoRepository _repository;
+
+        public ProductosController(ProductoRepository repository)
+        => _repository = repository;
+
+        public async Task<IActionResult> Index(string? buscar)
+        {
+            ViewBag.Buscar = buscar;
+            ViewBag.TotalProductos = await _repository.ContarAsync();
+            return View(await _repository.ObtenerTodosAsync(buscar));
+        }
+        
+        public IActionResult Crear() => View(new Producto());
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Crear(Producto producto)
+        {
+            if (!ModelState.IsValid) return View(producto);
+
+            await _repository.CrearAsync(producto);
+            TempData["Mensaje"] = "el producto se creo correctamente.";
+            return RedirectToAction(nameof(Index));
+        }   
     }
 }
