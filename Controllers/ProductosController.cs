@@ -29,5 +29,30 @@ namespace CrudProductosOracle19c.Controllers
             TempData["Mensaje"] = "el producto se creo correctamente.";
             return RedirectToAction(nameof(Index));
         }   
+
+        public async Task<IActionResult> Editar(int id)
+        {
+            var producto = await _repository.ObtenerPorIdAsync(id);
+            return producto is null ? NotFound() : View(producto);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Editar(Producto producto)
+        {
+            if (!ModelState.IsValid) return View(producto);
+
+            var actualizado = await _repository.ActualizarAsync(producto);
+            if (!actualizado) return NotFound();
+
+            TempData["Mensaje"] = "el producto se actualizo correctamente!";
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Eliminar(int id)
+        {
+            var producto = await _repository.ObtenerPorIdAsync(id);
+            return producto is null ? NotFound() : View(producto);
+        }   
     }
 }
