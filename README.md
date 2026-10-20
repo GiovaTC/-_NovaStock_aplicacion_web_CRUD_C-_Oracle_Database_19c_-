@@ -2,6 +2,10 @@
 
 <img width="1254" height="1254" alt="image" src="https://github.com/user-attachments/assets/7f32c678-6fd0-49e2-8f50-f9161bb57b88" />
 
+<img width="2556" height="1077" alt="image" src="https://github.com/user-attachments/assets/2a9be0d2-b91a-4b3f-a313-147203247f0c" />    
+
+<img width="2555" height="1079" alt="image" src="https://github.com/user-attachments/assets/cc47081d-3e53-4ebf-bd56-aefed2614cab" />    
+
 ```
 
 NovaStock — Aplicación web CRUD con C# y Oracle Database 19c:
