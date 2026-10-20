@@ -36,3 +36,60 @@
         </div>
     </div>
 </div>
+
+<div class="panel">
+    <div class="panel-heading">
+        <div><h3>Listado de productos</h3><p>Consulta y administra los registros disponibles.</p></div>
+        <form method="get" asp-action="Index" class="search-form">
+            <input name="buscar" value="@ViewBag.Buscar" class="form-control"
+                   placeholder="Buscar por nombre o categoría..." aria-label="Buscar productos" />
+            <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+            @if (!string.IsNullOrWhiteSpace((string?)ViewBag.Buscar))
+            {
+                <a class="btn btn-light" asp-action="Index">Limpiar</a>
+            }
+        </form>
+    </div>
+    <div class="table-responsive">
+        <table class="table align-middle product-table">
+            <thead>
+                <tr>
+                    <th>PRODUCTO</th><th>CATEGORÍA</th><th>PRECIO</th>
+                    <th>STOCK</th><th>FECHA DE CREACIÓN</th><th class="text-end">ACCIONES</th>
+                </tr>
+            </thead>
+            <tbody>
+            @if (!lista.Any())
+            {
+                <tr><td colspan="6" class="empty-state">
+                    <div>⌕</div><strong>No se encontraron productos</strong>
+                    <p>Prueba otra búsqueda o crea un producto nuevo.</p>
+                </td></tr>
+            }
+            @foreach (var p in lista)
+            {
+                <tr>
+                    <td>
+                        <div class="product-cell">
+                            <span class="product-icon">▣</span>
+                            <div><strong>@p.Nombre</strong><small>@p.Descripcion</small></div>
+                        </div>
+                    </td>
+                    <td><span class="category-pill">@p.Categoria</span></td>
+                    <td class="price">@p.Precio.ToString("C0", System.Globalization.CultureInfo.GetCultureInfo("es-CO"))</td>
+                    <td><span class="stock-badge @(p.Stock == 0 ? "stock-empty" : p.Stock < 10 ? "stock-low" : "stock-ok")">@p.Stock unidades</span></td>
+                    <td class="date-cell">@p.FechaCreacion.ToString("dd/MM/yyyy")</td>
+                    <td>
+                        <div class="action-buttons">
+                            <a asp-action="Editar" asp-route-id="@p.Id" class="btn-action edit" title="Editar">✎</a>
+                            <a asp-action="Eliminar" asp-route-id="@p.Id" class="btn-action delete" title="Eliminar">⌫</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    <div class="table-footer">Mostrando <strong>@lista.Count</strong> producto(s) en esta consulta.</div>
+</div>
+
