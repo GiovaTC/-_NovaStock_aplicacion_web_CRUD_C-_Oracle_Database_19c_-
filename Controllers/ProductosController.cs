@@ -53,6 +53,16 @@ namespace CrudProductosOracle19c.Controllers
         {
             var producto = await _repository.ObtenerPorIdAsync(id);
             return producto is null ? NotFound() : View(producto);
-        }   
-    }
+        }
+
+        [HttpPost, ActionName("Eliminar")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ConfirmarEliminar(int id)
+        {
+            var eliminado = await _repository.EliminarAsync(id);
+            TempData["Mensaje"] = eliminado ? "el producto se elimino correctamente!" 
+                                            : "no se encontro el producto solicitado.";
+            return RedirectToAction(nameof(Index));
+        }
+    }   
 }
