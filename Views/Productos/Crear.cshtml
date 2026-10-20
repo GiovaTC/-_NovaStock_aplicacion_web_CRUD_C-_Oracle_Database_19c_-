@@ -1,4 +1,19 @@
-﻿@page
-@model CrudProductosOracle19c.Views.Productos.CrearModel
+﻿@model Producto
 @{
+    ViewData["Title"] = "Nuevo producto";
 }
+<div class="form-wrap">
+    <div class="panel form-panel">
+        <div class="panel-heading">
+            <div><h3>Registrar producto</h3><p>Completa la información para agregar un nuevo registro al inventario.</p></div>
+            <span class="form-symbol">＋</span>
+        </div>
+        <form asp-action="Crear" method="post">
+            <partial name="_FormularioProducto" model="Model" />
+            <div class="form-actions">
+                <a asp-action="Index" class="btn btn-light">Cancelar</a>
+                <button type="submit" class="btn btn-primary">Guardar producto</button>
+            </div>
+        </form>
+    </div>
+</div>  
