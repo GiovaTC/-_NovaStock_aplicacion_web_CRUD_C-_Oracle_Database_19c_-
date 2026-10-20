@@ -5,34 +5,30 @@
     var unidades = lista.Sum(p => p.Stock);
     var valorInventario = lista.Sum(p => p.Precio * p.Stock);
 }
-<div class = "welcome-row">
+<div class="welcome-row">
     <div>
-        <h2>INVENTARIO de productos</h2>
+        <h2>Inventario de productos</h2>
         <p>Administra, consulta y actualiza tus productos desde un solo lugar.</p>
     </div>
     <a class="btn btn-primary btn-lg" asp-action="Crear">
-        <span class="plus">+</span> NUEVO producto
+        <span class="plus">＋</span> Nuevo producto
     </a>
 </div>
 
 <div class="stats-grid">
     <div class="stat-card">
         <div class="stat-icon purple">▦</div>
-        <div><span>PRODUCTOS registrados</span><strong>@ViewBag.TotalProductos</strong><small>REGISTROS en oracle</small></div>
+        <div><span>Productos registrados</span><strong>@ViewBag.TotalProductos</strong><small>Registros en Oracle</small></div>
     </div>
     <div class="stat-card">
         <div class="stat-icon blue">▤</div>
-        <div><span>UNIDADES en stock</span><strong>@unidades</strong><small>Existencias actuales</small></div>
+        <div><span>Unidades en stock</span><strong>@unidades</strong><small>Existencias actuales</small></div>
     </div>
     <div class="stat-card">
         <div class="stat-icon green">$</div>
-        <div><span>UNIDADES en stock</span><strong>@unidades</strong><small>EXISTENCIAS actuales</small></div>
-    </div>
-    <div class="stat-card">
-        <div class="stat-icon green">$</div>
-        <div><span>VALOR del INVENTARIO</span>
+        <div><span>Valor del inventario</span>
             <strong>@valorInventario.ToString("C0", System.Globalization.CultureInfo.GetCultureInfo("es-CO"))</strong>
-            <small>PRECIO * unidades</small>
+            <small>Precio × unidades</small>
         </div>
     </div>
 </div>
@@ -92,4 +88,3 @@
     </div>
     <div class="table-footer">Mostrando <strong>@lista.Count</strong> producto(s) en esta consulta.</div>
 </div>
-
