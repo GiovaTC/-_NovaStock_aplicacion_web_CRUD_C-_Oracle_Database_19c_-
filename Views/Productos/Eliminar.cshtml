@@ -1,4 +1,27 @@
-﻿@page
-@model CrudProductosOracle19c.Views.Productos.EliminarModel
+﻿@model Producto
 @{
+    ViewData["Title"] = "Eliminar producto";
 }
+<div class="form-wrap">
+    <div class="panel form-panel">
+        <div class="delete-warning">
+            <span>!</span>
+            <div><h3>¿Eliminar este producto?</h3>
+                <p>Esta acción borrará el registro de Oracle y no se puede deshacer.</p>
+            </div>
+        </div>
+        <div class="delete-summary">
+            <div><small>PRODUCTO</small><strong>@Model.Nombre</strong></div>
+            <div><small>CATEGORÍA</small><strong>@Model.Categoria</strong></div>
+            <div><small>PRECIO</small><strong>@Model.Precio.ToString("C0", System.Globalization.CultureInfo.GetCultureInfo("es-CO"))</strong></div>
+            <div><small>STOCK</small><strong>@Model.Stock unidades</strong></div>
+        </div>
+        <form asp-action="Eliminar" method="post">
+            <input type="hidden" name="id" value="@Model.Id" />
+            <div class="form-actions">
+                <a asp-action="Index" class="btn btn-light">Cancelar</a>
+                <button type="submit" class="btn btn-danger">Sí, eliminar producto</button>
+            </div>
+        </form>
+    </div>  
+</div>
